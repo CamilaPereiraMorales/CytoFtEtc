@@ -22,14 +22,14 @@ nodes = [
         'position': {'x': 20*lat, 'y': 20*long}
     }
     for short, label, long, lat in (
-        ('la', 'Los Angeles', 34.03, 118.25),
-        ('nyc', 'New York', 40.71, 74),
-        ('to', 'Toronto', 43.65, 79.38),
-        ('mtl', 'Montreal', 45.50, 73.57),
-        ('van', 'Vancouver', 49.28, 123.12),
-        ('chi', 'Chicago', 41.88, 87.63),
-        ('bos', 'Boston', 42.36, 71.06),
-        ('hou', 'Houston', 29.76, 95.37)
+        ('la', 'Los Angeles', 1, 118.25),
+        ('nyc', 'New York', 2, 74),
+        ('to', 'Toronto', 3, 79.38),
+        ('mtl', 'Montreal', 4, 73.57),
+        ('van', 'Vancouver', 5, 123.12),
+        ('chi', 'Chicago', 6, 87.63),
+        ('bos', 'Boston', 7, 71.06),
+        ('hou', 'Houston', 8, 95.37)
     )
 ]
 
@@ -49,6 +49,7 @@ edges = [
     )
 ]
 
+elements = nodes + edges
 
 default_stylesheet = [
     {
@@ -65,7 +66,7 @@ app.layout = html.Div([
     cyto.Cytoscape(
         id='cytoscape-event-callbacks',
         layout={'name': 'preset'},
-        elements=edges+nodes,
+        elements=elements,
         stylesheet=default_stylesheet,
         style={'width': '100%', 'height': '450px'}
     ),
@@ -73,27 +74,28 @@ app.layout = html.Div([
 ])
 
 
+
 @app.callback(Output('cytoscape-tapNodeData-output', 'children'),
               [Input('cytoscape-event-callbacks', 'tapNodeData')])
 def displayTapNodeData(data):
     if data:
- 
-       return dcc.Graph(
-                id="cytoscape-tapNodeData-output",
-                # figure={
-                #     "data": [
-                #         {
-                #             "x": data['x'],
-                #             "y":pdata['y'],
-                #             "text": data['label'],
-                #             "type":"bar",
-                                       
-                #         }
-                #     ]
-                # }
-            )
-      
+
+                return dcc.Graph(
+                    id="cytoscape-tapNodeData-output",
+                    figure={
+                        'data': [
+                            {
+                                "x": elements['x'],
+                                "y": elements['y'],
+                                "text": elements['label'],
+                                "type":"bar",
+
+                            }
+                        ]
+                    }
+                )
+
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True) 
