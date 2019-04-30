@@ -33,6 +33,7 @@ nodes = [
     )
 ]
 
+print(nodes.append)
 edges = [
     {'data': {'source': source, 'target': target}}
     for source, target in (
@@ -51,6 +52,7 @@ edges = [
 
 elements = nodes + edges
 
+
 default_stylesheet = [
     {
         'selector': 'node',
@@ -61,6 +63,9 @@ default_stylesheet = [
     }
 ]
 
+nodes=[]
+for index, row in nodes:
+    nodes.append({'data': {'id': row['state'], 'label': row['state']}, 'position': {'x': row['number_of_solar_plants'], 'y': row['installed_capacity_mw']}})
 
 app.layout = html.Div([
     cyto.Cytoscape(
@@ -85,9 +90,9 @@ def displayTapNodeData(data):
                     figure={
                         'data': [
                             {
-                                "x": elements['x'],
-                                "y": elements['y'],
-                                "text": elements['label'],
+                                "x": nodes.x,
+                                "y": nodes.y,
+                                "text": nodes.label,
                                 "type":"bar",
 
                             }
